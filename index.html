@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Four Channel Live Subscriber Counts</title>
+    <title>Enhanced Live YouTube Subscriber Counters</title>
     <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -13,20 +13,29 @@
             min-height: 100vh; /* Ensure body takes full viewport height */
             display: flex; /* Use flexbox for layout */
             flex-direction: column; /* Stack children vertically */
-            background-color: #ffffff; /* Changed to white background */
-            color: #1a202c; /* Changed text color to dark gray for contrast */
+            /* Dynamic, subtle gradient background */
+            background: radial-gradient(circle at 10% 20%, #1a273a, #0d1117 75%, #0a0e14);
+            background-size: 200% 200%; /* Make it larger for animation */
+            animation: gradient-shift 10s ease infinite alternate; /* Subtle animation */
+            color: #e2e8f0; /* Light text color for contrast */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
         }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
         /* Style for the container holding the iframes */
         .iframe-grid {
             display: grid;
-            gap: 1rem; /* Gap between iframes */
-            padding: 1rem;
+            gap: 1.5rem; /* Increased gap for better spacing */
+            padding: 1.5rem;
             flex-grow: 1; /* Allow the grid to take available space */
-            /* Responsive grid: 1 column on small screens, 2 columns on medium and larger */
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Min width for embed content */
-            /* Ensure iframes fill their grid cells */
             align-items: stretch;
-            justify-items: stretch;
+            justify-items: center; /* Center items in the grid */
+            /* Responsive grid: 1 column on small screens, 2 columns on medium and larger */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Slightly wider min-width */
         }
 
         @media (min-width: 768px) { /* Medium screens and up */
@@ -34,27 +43,104 @@
                 grid-template-columns: repeat(2, 1fr); /* Two columns */
             }
         }
+
+        /* Specific styling for the iframe containers (the cards) */
+        .card {
+            background-color: #161b22; /* Slightly lighter dark background for cards */
+            border-radius: 1rem; /* More rounded corners */
+            padding: 1.5rem; /* Increased padding */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1); /* Stronger shadow */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth hover effect */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%; /* Ensure card takes full width of its grid cell */
+            max-width: 450px; /* Increased max-width for individual cards to accommodate larger iframes */
+            border: 1px solid rgba(255, 255, 255, 0.08); /* A subtle initial border */
+        }
+
+        .card:hover {
+            transform: translateY(-8px) rotateX(3deg); /* More pronounced lift and subtle 3D tilt */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), /* Larger shadow */
+                        0 0 25px rgba(139, 92, 246, 0.7); /* Purple glow effect */
+        }
+
         iframe {
-            width: 100%; /* Make iframe fill its parent grid item */
-            height: 100px; /* Adjusted height for embed content */
+            width: 100%; /* Make iframe fill its parent card */
+            height: 125px; /* Increased height for embed content */
             border: none;
-            border-radius: 0.75rem; /* rounded-xl from Tailwind */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle shadow */
-            /* Ensure background is transparent if iframe allows */
-            background-color: transparent;
+            border-radius: 0.5rem; /* Rounded corners for iframe itself */
+            background-color: transparent; /* Ensure iframe background is transparent */
+            /* Added a subtle border for visual separation */
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* --- Header Text Styles --- */
+        .header-title {
+            color: #FFFFFF; /* Changed to White */
+            /* Removed text-shadow for no glow */
+        }
+
+        .channel-title {
+            /* Inherit colors from Tailwind classes, just add glow */
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); /* Subtle white glow */
+        }
+        
+        /* Custom color for Sista YAEY */
+        .text-lilac {
+            color: #C8A2C8; /* A nice lilac color */
+        }
+
+        /* --- Confetti Styles --- */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allows clicks to pass through elements below */
+            overflow: hidden; /* Ensures confetti stays within viewport */
+            z-index: 9999; /* Ensures confetti is on top of other content */
+        }
+
+        .confetti {
+            position: absolute;
+            background-color: #f00; /* Default color, will be randomized */
+            animation: confetti-fall linear forwards;
+            opacity: 0;
+            border-radius: 0px; /* Rectangular shape */
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.7); /* Subtle white glow */
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-20px) rotate(0deg); /* Start slightly above the top */
+                opacity: 0;
+            }
+            10% {
+                opacity: 1; /* Quickly become visible */
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg); /* Fall through the entire viewport */
+                opacity: 0; /* Fade out as it falls off screen */
+            }
         }
     </style>
 </head>
-<body class="bg-white text-gray-800 antialiased">
-    <div class="container mx-auto p-4 text-center">
-        <h1 class="text-3xl font-bold mb-6 text-indigo-700">Live YouTube Subscriber Counters</h1>
-        <p class="text-gray-600 text-sm mb-4">Displaying live counts from livecounts.io embed links.</p>
+<body class="bg-gray-950 text-gray-100 antialiased">
+    <!-- Confetti Container - positioned fixed to cover the whole screen -->
+    <div id="confetti-container" class="confetti-container"></div>
+
+    <div class="container mx-auto p-6 text-center">
+        <h1 class="text-6xl font-extrabold mb-4 header-title">Welcome to YAEY!</h1>
+        <p class="text-white text-3xl mb-8">Watch us reach 100 million subscribers by 2030!</p>
     </div>
 
     <div class="iframe-grid">
         <!-- Iframe for im_siowei -->
-        <div class="bg-white rounded-xl p-4 shadow-lg flex flex-col justify-center items-center">
-            <h2 class="text-xl font-semibold mb-2 text-blue-700">im_siowei</h2>
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-4 text-red-500 channel-title">im_siowei</h2>
             <iframe src="https://livecounts.io/embed/youtube-live-subscriber-counter/UCSgue5Dm418CCUCZ-aeUtEA"
                     title="im_siowei Live Subscriber Count"
                     allowfullscreen>
@@ -62,8 +148,8 @@
         </div>
 
         <!-- Iframe for Sista YAEY -->
-        <div class="bg-white rounded-xl p-4 shadow-lg flex flex-col justify-center items-center">
-            <h2 class="text-xl font-semibold mb-2 text-green-700">Sista YAEY</h2>
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-4 text-lilac channel-title">Sista YAEY</h2>
             <iframe src="https://livecounts.io/embed/youtube-live-subscriber-counter/UCsgN8D9f4MpUfmS6LQ_cZfQ"
                     title="Sista YAEY Live Subscriber Count"
                     allowfullscreen>
@@ -71,8 +157,8 @@
         </div>
 
         <!-- Iframe for YAEY Gang -->
-        <div class="bg-white rounded-xl p-4 shadow-lg flex flex-col justify-center items-center">
-            <h2 class="text-xl font-semibold mb-2 text-red-700">YAEY Gang</h2>
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-4 text-red-300 channel-title">YAEY Gang</h2>
             <iframe src="https://livecounts.io/embed/youtube-live-subscriber-counter/UCqyb2Fnwnd-bmfX9qjGKmUA"
                     title="YAEY Gang Live Subscriber Count"
                     allowfullscreen>
@@ -80,14 +166,78 @@
         </div>
 
         <!-- Iframe for Siowei World -->
-        <div class="bg-white rounded-xl p-4 shadow-lg flex flex-col justify-center items-center">
-            <h2 class="text-xl font-semibold mb-2 text-purple-700">Siowei World</h2>
-            <!-- Inferred embed link based on pattern, as explicit embed was not provided for this channel -->
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-4 text-yellow-300 channel-title">Siowei World</h2>
             <iframe src="https://livecounts.io/embed/youtube-live-subscriber-counter/UCXlDsYe-QtRuEGRm_aci1ug"
                     title="Siowei World Live Subscriber Count"
                     allowfullscreen>
             </iframe>
         </div>
     </div>
+
+    <script>
+        // Get the confetti container element
+        const confettiContainer = document.getElementById('confetti-container');
+
+        // Function to create and launch confetti
+        function launchConfetti() {
+            const numConfetti = 200; // Increased number of confetti pieces for a fuller effect
+            // Highly vibrant and saturated color palette
+            const colors = [
+                '#FF00FF', /* Magenta */
+                '#FFFF00', /* Yellow */
+                '#00FFFF', /* Cyan */
+                '#FF4500', /* OrangeRed */
+                '#7CFC00', /* LawnGreen */
+                '#00BFFF', /* DeepSkyBlue */
+                '#EE82EE', /* Violet */
+                '#ADFF2F', /* GreenYellow */
+                '#FF6347', /* Tomato */
+                '#40E0D0'  /* Turquoise */
+            ];
+
+            for (let i = 0; i < numConfetti; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+
+                // Randomize starting position (x-axis) across the entire viewport width
+                confetti.style.left = `${Math.random() * 100}vw`;
+
+                // Randomize color from the defined array
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+                // Set animation duration to a fixed 2 seconds
+                confetti.style.animationDuration = `2s`;
+
+                // Randomize animation delay to make them appear at slightly different times
+                confetti.style.animationDelay = `${Math.random() * 2}s`;
+
+                // Set a random size for confetti pieces (10-25px for noticeable size)
+                const size_width = `${Math.random() * 15 + 10}px`;
+                const size_height = `${Math.random() * 15 + 10}px`;
+
+                confetti.style.width = size_width;
+                confetti.style.height = size_height;
+                // Add a slight rotation to make them "dance" more
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+                confettiContainer.appendChild(confetti);
+
+                // Remove confetti after it falls to prevent DOM bloat and maintain performance
+                confetti.addEventListener('animationend', () => {
+                    confetti.remove();
+                });
+            }
+        }
+
+        // Set interval to launch confetti every 2 minutes (120,000 milliseconds)
+        setInterval(launchConfetti, 120 * 1000);
+
+        // Trigger confetti immediately on page load for an initial burst
+        window.onload = function() {
+            launchConfetti();
+        };
+    </script>
 </body>
 </html>
+
