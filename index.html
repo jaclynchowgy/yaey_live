@@ -30,12 +30,12 @@
         .iframe-grid {
             display: grid;
             gap: 1.5rem; /* Increased gap for better spacing */
-            padding: 1.5rem;
+            padding: 0.5rem 1.5rem 1.5rem; /* Reduced top padding */
             flex-grow: 1; /* Allow the grid to take available space */
             align-items: stretch;
             justify-items: center; /* Center items in the grid */
             /* Responsive grid: 1 column on small screens, 2 columns on medium and larger */
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Slightly wider min-width */
+            grid-template-columns: repeat(auto-fit, minmax(216px, 1fr)); /* Reduced min-width by another 10% */
         }
 
         @media (min-width: 768px) { /* Medium screens and up */
@@ -46,9 +46,9 @@
 
         /* Specific styling for the iframe containers (the cards) */
         .card {
-            background-color: #161b22; /* Slightly lighter dark background for cards */
+            background-color: #FFFFFF; /* Changed to White */
             border-radius: 1rem; /* More rounded corners */
-            padding: 1.5rem; /* Increased padding */
+            padding: 1rem; /* Reduced padding for tighter fit */
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1); /* Stronger shadow */
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth hover effect */
             display: flex;
@@ -56,8 +56,7 @@
             align-items: center;
             justify-content: center;
             width: 100%; /* Ensure card takes full width of its grid cell */
-            max-width: 450px; /* Increased max-width for individual cards to accommodate larger iframes */
-            border: 1px solid rgba(255, 255, 255, 0.08); /* A subtle initial border */
+            border: 1px solid rgba(0, 0, 0, 0.1); /* A subtle initial border for white background */
         }
 
         .card:hover {
@@ -68,28 +67,27 @@
 
         iframe {
             width: 100%; /* Make iframe fill its parent card */
-            height: 125px; /* Increased height for embed content */
+            height: 80px; /* Reduced height by another ~10% */
             border: none;
             border-radius: 0.5rem; /* Rounded corners for iframe itself */
             background-color: transparent; /* Ensure iframe background is transparent */
             /* Added a subtle border for visual separation */
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05); /* Adjusted border for white background */
         }
 
         /* --- Header Text Styles --- */
         .header-title {
             color: #FFFFFF; /* Changed to White */
-            /* Removed text-shadow for no glow */
         }
 
         .channel-title {
-            /* Inherit colors from Tailwind classes, just add glow */
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); /* Subtle white glow */
+            /* Text shadow for white background - adjust as needed for contrast */
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.1); /* Subtle dark shadow for readability on white */
         }
         
-        /* Custom color for Sista YAEY */
-        .text-lilac {
-            color: #C8A2C8; /* A nice lilac color */
+        /* Custom color for Sista YAEY - darker for white background */
+        .text-dark-lilac {
+            color: #8A5F8A; /* A darker lilac color for readability */
         }
 
         /* --- Confetti Styles --- */
@@ -134,13 +132,13 @@
 
     <div class="container mx-auto p-6 text-center">
         <h1 class="text-6xl font-extrabold mb-4 header-title">Welcome to YAEY!</h1>
-        <p class="text-white text-3xl mb-8">Watch us reach 100 million subscribers by 2030!</p>
+        <p class="text-white text-3xl mb-2">Watch us reach 100 million subscribers by 2030!</p>
     </div>
 
     <div class="iframe-grid">
         <!-- Iframe for im_siowei -->
         <div class="card">
-            <h2 class="text-2xl font-bold mb-4 text-red-500 channel-title">im_siowei</h2>
+            <h2 class="text-2xl font-bold mb-2 text-red-700 channel-title">im_siowei</h2>
             <iframe src="https://livecounts.io/embed/youtube-live-subscriber-counter/UCSgue5Dm418CCUCZ-aeUtEA"
                     title="im_siowei Live Subscriber Count"
                     allowfullscreen>
@@ -149,7 +147,7 @@
 
         <!-- Iframe for Sista YAEY -->
         <div class="card">
-            <h2 class="text-2xl font-bold mb-4 text-lilac channel-title">Sista YAEY</h2>
+            <h2 class="text-2xl font-bold mb-2 text-dark-lilac channel-title">Sista YAEY</h2>
             <iframe src="https://livecounts.io/embed/youtube-live-subscriber-counter/UCsgN8D9f4MpUfmS6LQ_cZfQ"
                     title="Sista YAEY Live Subscriber Count"
                     allowfullscreen>
@@ -158,7 +156,7 @@
 
         <!-- Iframe for YAEY Gang -->
         <div class="card">
-            <h2 class="text-2xl font-bold mb-4 text-red-300 channel-title">YAEY Gang</h2>
+            <h2 class="text-2xl font-bold mb-2 text-red-700 channel-title">YAEY Gang</h2>
             <iframe src="https://livecounts.io/embed/youtube-live-subscriber-counter/UCqyb2Fnwnd-bmfX9qjGKmUA"
                     title="YAEY Gang Live Subscriber Count"
                     allowfullscreen>
@@ -167,7 +165,7 @@
 
         <!-- Iframe for Siowei World -->
         <div class="card">
-            <h2 class="text-2xl font-bold mb-4 text-yellow-300 channel-title">Siowei World</h2>
+            <h2 class="text-2xl font-bold mb-2 text-yellow-700 channel-title">Siowei World</h2>
             <iframe src="https://livecounts.io/embed/youtube-live-subscriber-counter/UCXlDsYe-QtRuEGRm_aci1ug"
                     title="Siowei World Live Subscriber Count"
                     allowfullscreen>
